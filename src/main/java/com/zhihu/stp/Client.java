@@ -20,10 +20,6 @@ public class Client {
         this.init(host, port, 1000, 1000);
     }
 
-    public Client(String host, int port, int connectTimeout) {
-        this.init(host, port, connectTimeout, 1);
-    }
-
     public Client(String host, int port, int connectTimeout, int timeout) {
         this.init(host, port, connectTimeout, timeout);
     }
