@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.IOException;
+import java.util.Vector;
 
 /**
  * Unit test for simple Request.

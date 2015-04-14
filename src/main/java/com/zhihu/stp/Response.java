@@ -1,6 +1,6 @@
 package com.zhihu.stp;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Created by hdd on 4/14/15.
@@ -8,12 +8,12 @@ import java.util.Vector;
 
 public class Response<T> {
 
-    private Vector<String> args = new Vector<String>();
+    private ArrayList<String> args = new ArrayList<String>();
 
     public Response() {
     }
 
-    public Response(Vector<String> args) {
+    public Response(ArrayList<String> args) {
         this.args = args;
     }
 
@@ -21,7 +21,7 @@ public class Response<T> {
         this.args.add(arg);
     }
 
-    public Vector<String> getArgs() {
+    public ArrayList<String> getArgs() {
         return this.args;
     }
 

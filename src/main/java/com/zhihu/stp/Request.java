@@ -1,15 +1,15 @@
 package com.zhihu.stp;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Request {
 
-    private Vector<String> args = new Vector<String>();
+    private ArrayList<String> args = new ArrayList<String>();
 
     public Request() {
     }
 
-    public Request(Vector<String> args) {
+    public Request(ArrayList<String> args) {
         this.args = args;
     }
 
@@ -27,7 +27,7 @@ public class Request {
         return buf;
     }
 
-    public Vector<String> getArgs() {
+    public ArrayList<String> getArgs() {
         return this.args;
     }
 }
