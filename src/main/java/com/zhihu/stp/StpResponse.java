@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by hdd on 4/14/15.
  */
 
-public class StpResponse<T> {
+public class StpResponse {
 
     private ArrayList<String> args = new ArrayList<String>();
 
