@@ -3,20 +3,20 @@ stpclient-java
 
 ## Usage
 
-	import com.zhihu.stp.Client
-	import com.zhihu.stp.Request
-	import com.zhihu.stp.Response
+	import com.zhihu.stp.StpClient
+	import com.zhihu.stp.StpRequest
+	import com.zhihu.stp.StpResponse
 	
-	Client client = new Client(host, port)
+	StpClient client = new StpClient(host, port)
 	// You can also, add connect and io-wait timeout
-	Client client = new Client(host, port, connectTimeout, timeout)
-	Request request = new Request();
-	request.append(arg1)
-	request.append(arg2)
+	StpClient client = new StpClient(host, port, connectTimeout, timeout)
+	StpRequest stpRequest = new StpRequest();
+	stpRequest.append(arg1)
+	stpRequest.append(arg2)
 	
-	// You can use `Request request = new Request(Vector<String> xxx)` too
+	// You can use `StpRequest stpRequest = new StpRequest(Vector<String> xxx)` too
 	
-	Response response = client.call(request)
+	StpResponse stpResponse = client.call(stpRequest)
 	
 	client.close()
 

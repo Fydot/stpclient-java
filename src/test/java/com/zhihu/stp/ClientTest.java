@@ -1,14 +1,11 @@
 package com.zhihu.stp;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import java.io.IOException;
-import java.util.Vector;
 
 /**
- * Unit test for simple Request.
+ * Unit test for simple StpRequest.
  */
 public class ClientTest extends TestCase {
 
@@ -17,13 +14,13 @@ public class ClientTest extends TestCase {
     }
 
     public void testClientCall() throws IOException {
-        Client client = new Client("localhost", 50001, 10000, 10000);
-        Request request = new Request();
-        request.append("add");
-        request.append("1");
-        request.append("2");
-        Response response = client.call(request);
+        StpClient stpClient = new StpClient("localhost", 50001, 10000, 10000);
+        StpRequest stpRequest = new StpRequest();
+        stpRequest.append("add");
+        stpRequest.append("1");
+        stpRequest.append("2");
+        StpResponse stpResponse = stpClient.call(stpRequest);
 
-        assertEquals(response.getArgs(), request.getArgs());
+        assertEquals(stpResponse.getArgs(), stpRequest.getArgs());
     }
 }

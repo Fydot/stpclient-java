@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 
 
-public class Client {
+public class StpClient {
 
     private String host;
     private int port, connectTimeout, timeout;
@@ -16,11 +16,11 @@ public class Client {
     private BufferedReader reader;
     private BufferedWriter writer;
 
-    public Client(String host, int port) {
+    public StpClient(String host, int port) {
         this.init(host, port, 1000, 1000);
     }
 
-    public Client(String host, int port, int connectTimeout, int timeout) {
+    public StpClient(String host, int port, int connectTimeout, int timeout) {
         this.init(host, port, connectTimeout, timeout);
     }
 
@@ -52,9 +52,9 @@ public class Client {
         return this.socket.isConnected();
     }
 
-    private Response receive() throws IOException {
+    private StpResponse receive() throws IOException {
         String buf = "", temp;
-        Response response = new Response();
+        StpResponse stpResponse = new StpResponse();
         while(true) {
             // Receive Length
             while (!buf.contains("\r\n")) {
@@ -64,7 +64,7 @@ public class Client {
 
             if(buf.startsWith("\r\n")) {
                 buf = buf.substring("\r\n".length());
-                return response;
+                return stpResponse;
             }
 
             int length = Integer.parseInt(buf.substring(0, buf.indexOf("\r\n")));
@@ -78,11 +78,11 @@ public class Client {
             String data = buf.substring(0, length);
             buf = buf.substring(length + "\r\n".length());
 
-            response.append(data);
+            stpResponse.append(data);
         }
     }
 
-    public Response call(Request request) throws IOException {
+    public StpResponse call(StpRequest stpRequest) throws IOException {
 
         if (!this.socket.isConnected()) {
             try {
@@ -92,7 +92,7 @@ public class Client {
             }
         }
 
-        this.writer.write(request.serialize());
+        this.writer.write(stpRequest.serialize());
         this.writer.flush();
 
         return this.receive();

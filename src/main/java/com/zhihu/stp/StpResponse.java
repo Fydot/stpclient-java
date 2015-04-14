@@ -6,14 +6,14 @@ import java.util.ArrayList;
  * Created by hdd on 4/14/15.
  */
 
-public class Response<T> {
+public class StpResponse<T> {
 
     private ArrayList<String> args = new ArrayList<String>();
 
-    public Response() {
+    public StpResponse() {
     }
 
-    public Response(ArrayList<String> args) {
+    public StpResponse(ArrayList<String> args) {
         this.args = args;
     }
 

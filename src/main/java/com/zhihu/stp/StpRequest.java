@@ -2,14 +2,14 @@ package com.zhihu.stp;
 
 import java.util.ArrayList;
 
-public class Request {
+public class StpRequest {
 
     private ArrayList<String> args = new ArrayList<String>();
 
-    public Request() {
+    public StpRequest() {
     }
 
-    public Request(ArrayList<String> args) {
+    public StpRequest(ArrayList<String> args) {
         this.args = args;
     }
 
