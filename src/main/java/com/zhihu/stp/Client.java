@@ -1,16 +1,11 @@
 package com.zhihu.stp;
 
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-/**
- * Created by hdd on 4/14/15.
- */
 
 public class Client {
 
@@ -47,6 +42,18 @@ public class Client {
         this.socket.setSoTimeout(this.timeout);
         this.reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
         this.writer = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream()));
+    }
+
+    public void close() throws IOException {
+        this.reader.close();
+        this.writer.close();
+        if (!this.socket.isClosed()) {
+            this.socket.close();
+        }
+    }
+
+    public boolean available() {
+        return this.socket.isConnected();
     }
 
     private Response receive() throws IOException {
@@ -93,18 +100,5 @@ public class Client {
         this.writer.flush();
 
         return this.receive();
-    }
-
-    public static void main(String[] args) {
-        Client client = new Client("localhost", 50001);
-        Request requset = new Request();
-        requset.append("hdd");
-        requset.append("hdd2cdcdcdcdcd");
-        try {
-            System.out.println("INFO " + client.call(requset));
-            //client.call(requset);
-        } catch (IOException e) {
-            System.err.println("ERROR ERROR -- " + e);
-        }
     }
 }
