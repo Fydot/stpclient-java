@@ -25,10 +25,17 @@ public class StpResponse {
         return this.args;
     }
 
+    public String getArg(int index) {
+        return this.args.get(index);
+    }
+
+    public int size() {
+        return this.args.size();
+    }
     public String toString() {
         String str = "";
 
-        for (String elem: this.args) {
+        for (String elem : this.args) {
             str += elem + " ";
         }
 
