@@ -19,12 +19,12 @@ public class StpRequest {
 
     public String serialize() {
 
-        String buf = "";
+        StringBuffer buf = new StringBuffer();
         for (String elem : this.args) {
-            buf += String.format("%d\r\n%s\r\n", elem.length(), elem);
+            buf.append(elem.length() + "\r\n" + elem.toString() + "\r\n");
         }
-        buf += "\r\n";
-        return buf;
+        buf.append("\r\n");
+        return buf.toString();
     }
 
     public ArrayList<String> getArgs() {

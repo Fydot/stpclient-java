@@ -20,7 +20,6 @@ public class ClientTest extends TestCase {
         stpRequest.append("1");
         stpRequest.append("2");
         StpResponse stpResponse = stpClient.call(stpRequest);
-
         assertEquals(stpResponse.getArgs(), stpRequest.getArgs());
     }
 }

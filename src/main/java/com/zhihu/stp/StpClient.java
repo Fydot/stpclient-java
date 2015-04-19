@@ -53,30 +53,28 @@ public class StpClient {
     }
 
     private StpResponse receive() throws IOException {
-        String buf = "", temp;
+        StringBuffer buf = new StringBuffer();
         StpResponse stpResponse = new StpResponse();
         while(true) {
             // Receive Length
-            while (!buf.contains("\r\n")) {
-                temp = this.reader.readLine();
-                buf += temp + "\r\n";
+            while (buf.indexOf("\r\n") == -1) {
+                buf.append(this.reader.readLine() + "\r\n");
             }
 
-            if(buf.startsWith("\r\n")) {
-                buf = buf.substring("\r\n".length());
+            if(buf.indexOf("\r\n") == 0) {
+                buf.delete(0, "\r\n".length());
                 return stpResponse;
             }
 
             int length = Integer.parseInt(buf.substring(0, buf.indexOf("\r\n")));
-            buf = buf.substring(buf.indexOf("\r\n") + "\r\n".length());
+            buf = buf.delete(0, buf.indexOf("\r\n") + "\r\n".length());
 
             while (buf.length() <= length + "\r\n".length()) {
-                temp = this.reader.readLine();
-                buf += temp + "\r\n";
+                buf.append(this.reader.readLine() + "\r\n");
             }
 
             String data = buf.substring(0, length);
-            buf = buf.substring(length + "\r\n".length());
+            buf = buf.delete(0, length + "\r\n".length());
 
             stpResponse.append(data);
         }
@@ -96,5 +94,18 @@ public class StpClient {
         this.writer.flush();
 
         return this.receive();
+    }
+
+    public static void main(String[] args) {
+        StpClient stpClient = new StpClient("localhost", 50001, 10000, 10000);
+        StpRequest stpRequest = new StpRequest();
+        stpRequest.append("add");
+        stpRequest.append("1");
+        stpRequest.append("2");
+        try {
+            StpResponse stpResponse = stpClient.call(stpRequest);
+        } catch (IOException e) {
+
+        }
     }
 }
