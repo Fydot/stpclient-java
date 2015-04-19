@@ -15,6 +15,7 @@ public class StpClient {
     private Socket socket = new Socket();
     private BufferedReader reader;
     private BufferedWriter writer;
+    private String EOL = "\r\n";
 
     public StpClient(String host, int port) {
         this.init(host, port, 1000, 1000);
@@ -53,28 +54,32 @@ public class StpClient {
     }
 
     private StpResponse receive() throws IOException {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         StpResponse stpResponse = new StpResponse();
-        while(true) {
+        char[] cbuf = new char[1500];
+        int cbufLength;
+        while (true) {
             // Receive Length
-            while (buf.indexOf("\r\n") == -1) {
-                buf.append(this.reader.readLine() + "\r\n");
+            while (buf.indexOf(this.EOL) == -1) {
+                cbufLength = this.reader.read(cbuf, 0, cbuf.length);
+                buf.append(cbuf, 0, cbufLength);
             }
 
-            if(buf.indexOf("\r\n") == 0) {
-                buf.delete(0, "\r\n".length());
+            if (buf.indexOf(this.EOL) == 0) {
+                buf.delete(0, this.EOL.length());
                 return stpResponse;
             }
 
-            int length = Integer.parseInt(buf.substring(0, buf.indexOf("\r\n")));
-            buf = buf.delete(0, buf.indexOf("\r\n") + "\r\n".length());
+            int length = Integer.parseInt(buf.substring(0, buf.indexOf(this.EOL)));
+            buf = buf.delete(0, buf.indexOf(this.EOL) + this.EOL.length());
 
-            while (buf.length() <= length + "\r\n".length()) {
-                buf.append(this.reader.readLine() + "\r\n");
+            while (buf.length() <= length + this.EOL.length()) {
+                cbufLength = this.reader.read(cbuf, 0, cbuf.length);
+                buf.append(cbuf, 0, cbufLength);
             }
 
             String data = buf.substring(0, length);
-            buf = buf.delete(0, length + "\r\n".length());
+            buf = buf.delete(0, length + this.EOL.length());
 
             stpResponse.append(data);
         }
@@ -96,16 +101,4 @@ public class StpClient {
         return this.receive();
     }
 
-    public static void main(String[] args) {
-        StpClient stpClient = new StpClient("localhost", 50001, 10000, 10000);
-        StpRequest stpRequest = new StpRequest();
-        stpRequest.append("add");
-        stpRequest.append("1");
-        stpRequest.append("2");
-        try {
-            StpResponse stpResponse = stpClient.call(stpRequest);
-        } catch (IOException e) {
-
-        }
-    }
 }
